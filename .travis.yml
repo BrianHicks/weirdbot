@@ -1,4 +1,5 @@
 language: elixir
+elixir: '1.6'
 
 # huh, everything else is automatic. Cool. If I want something beyond "mix test"
 # I'll have to write it myself, but that's all I want for now.
