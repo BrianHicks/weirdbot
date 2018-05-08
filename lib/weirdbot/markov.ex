@@ -24,30 +24,26 @@ defmodule Weirdbot.Markov do
   end
 
   def handle_cast({:add, tokens}, state) do
-    {:noreply, increment_pairs([@start_token|tokens], state)}
+    {:noreply, increment_pairs([@start_token | tokens], state)}
   end
 
   ## Private stuff
 
-  def increment_pairs([first|[next|rest]], state) do
+  def increment_pairs([first | [next | rest]], state) do
     increment_pairs(
-      [next|rest],
-      Map.update(
-        state,
-        first,
-        %{next => 1},
-        fn current -> Map.update(current, next, 1, &(&1 + 1)) end
-      )
+      [next | rest],
+      Map.update(state, first, %{next => 1}, fn current ->
+        Map.update(current, next, 1, &(&1 + 1))
+      end)
     )
   end
+
   def increment_pairs([last], state) do
-    Map.update(
-      state,
-      last,
-      %{@end_token => 1},
-      fn current -> Map.update(current, @end_token, 1, &(&1 + 1)) end
-    )
+    Map.update(state, last, %{@end_token => 1}, fn current ->
+      Map.update(current, @end_token, 1, &(&1 + 1))
+    end)
   end
+
   def increment_pairs(_, state) do
     state
   end
