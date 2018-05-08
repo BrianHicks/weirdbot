@@ -24,10 +24,19 @@ defmodule Weirdbot.Markov do
   end
 
   def handle_cast({:add, tokens}, state) do
-    {:noreply, increment_pairs([@start_token | tokens], state)}
+    {:noreply, increment(tokens, state)}
   end
 
-  ## Private stuff
+  ## Psuedo-Private stuff
+  ##
+  ## So I want to use property-based tests to test this, but the nice Elixir
+  ## library (StreamData) does not allow for testing stateful things like
+  ## GenServers. So this is staying public (can you make Elixir stuff private?)
+  ## for now until they add that or I find a better solution.
+
+  def increment(tokens, state) do
+    increment_pairs([@start_token | tokens], state)
+  end
 
   def increment_pairs([first | [next | rest]], state) do
     increment_pairs(
