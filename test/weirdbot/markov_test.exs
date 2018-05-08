@@ -39,5 +39,13 @@ defmodule Weirdbot.MarkovTest do
         assert count == 1
       end
     end
+
+    property "the last token always has an end counter" do
+      check all a <- term() do
+        %{^a => ends} = increment(%{}, [a])
+
+        assert ends == %{:__end_token => 1}
+      end
+    end
   end
 end
