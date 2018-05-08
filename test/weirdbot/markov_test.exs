@@ -17,5 +17,18 @@ defmodule Weirdbot.MarkovTest do
         assert starts == %{head => 1}
       end
     end
+
+    property "start is tracked separately for separate first items" do
+      check all a <- term(),
+                b <- term(),
+                a != b do
+        %{:__start_token => starts} =
+          %{}
+          |> increment([a])
+          |> increment([b])
+
+        assert starts == %{a => 1, b => 1}
+      end
+    end
   end
 end
