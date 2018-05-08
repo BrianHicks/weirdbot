@@ -12,7 +12,7 @@ defmodule Weirdbot.MarkovTest do
   describe "increment" do
     property "start is always set on the first item" do
       check all head <- term() do
-        %{:__start_token => starts} = increment([head], %{})
+        %{:__start_token => starts} = increment(%{}, [head])
 
         assert starts == %{head => 1}
       end

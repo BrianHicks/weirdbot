@@ -34,26 +34,26 @@ defmodule Weirdbot.Markov do
   ## GenServers. So this is staying public (can you make Elixir stuff private?)
   ## for now until they add that or I find a better solution.
 
-  def increment(tokens, state) do
-    increment_pairs([@start_token | tokens], state)
+  def increment(state, tokens) do
+    increment_pairs(state, [@start_token | tokens])
   end
 
-  def increment_pairs([first | [next | rest]], state) do
+  def increment_pairs(state, [first | [next | rest]]) do
     increment_pairs(
-      [next | rest],
       Map.update(state, first, %{next => 1}, fn current ->
         Map.update(current, next, 1, &(&1 + 1))
-      end)
+      end),
+      [next | rest]
     )
   end
 
-  def increment_pairs([last], state) do
+  def increment_pairs(state, [last]) do
     Map.update(state, last, %{@end_token => 1}, fn current ->
       Map.update(current, @end_token, 1, &(&1 + 1))
     end)
   end
 
-  def increment_pairs(_, state) do
+  def increment_pairs(state, _) do
     state
   end
 end
