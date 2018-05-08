@@ -30,5 +30,14 @@ defmodule Weirdbot.MarkovTest do
         assert starts == %{a => 1, b => 1}
       end
     end
+
+    property "given `[a, b]`, tracks counts of b in terms of a" do
+      check all a <- term(),
+                b <- term() do
+        %{^a => %{^b => count}} = increment(%{}, [a, b])
+
+        assert count == 1
+      end
+    end
   end
 end
