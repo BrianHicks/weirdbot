@@ -24,7 +24,7 @@ defmodule Weirdbot.Markov do
   end
 
   def handle_cast({:add, tokens}, state) do
-    {:noreply, increment_pairs(tokens, state)}
+    {:noreply, increment_pairs([@start_token|tokens], state)}
   end
 
   ## Private stuff
